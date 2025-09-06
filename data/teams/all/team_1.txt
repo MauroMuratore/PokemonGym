@@ -1,0 +1,59 @@
+Infernape
+Level: 100
+Hardy Nature
+Ability: Blaze
+EVs: 1 Atk
+- Mach Punch
+- Fire Punch
+- Close Combat
+- Bulk Up
+
+Xatu
+Level: 100
+Hardy Nature
+Ability: Synchronize
+EVs: 1 Atk
+- Psychic
+- Calm Mind
+- Light Screen
+- Reflect
+
+Torterra
+Level: 100
+Hardy Nature
+Ability: Overgrow
+EVs: 1 Atk
+- Earth Power
+- Seed Bomb
+- Synthesis
+- Curse
+
+Sharpedo
+Level: 100
+Hardy Nature
+Ability: Rough Skin
+EVs: 1 Atk
+- Waterfall
+- Crunch
+- Dark Pulse
+- Aqua Jet
+
+Manectric
+Level: 100
+Hardy Nature
+Ability: Static
+EVs: 1 Atk
+- Thunderbolt
+- Thunder Fang
+- Crunch
+- Thunder Wave
+
+Gliscor
+Level: 100
+Hardy Nature
+Ability: Hyper Cutter
+EVs: 1 Atk
+- Earthquake
+- Aerial Ace
+- Swords Dance
+- Stealth Rock

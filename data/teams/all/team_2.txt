@@ -1,0 +1,56 @@
+Gliscor (M) @ Leftovers  
+Ability: Hyper Cutter  
+EVs: 252 HP / 4 Atk / 252 Spe  
+Impish Nature  
+- Taunt  
+- Earthquake  
+- Knock Off  
+- Roost  
+
+Gyarados @ Wacan Berry  
+Ability: Intimidate  
+Shiny: Yes  
+EVs: 252 Atk / 4 Def / 252 Spe  
+Adamant Nature  
+- Waterfall  
+- Earthquake  
+- Bounce  
+- Dragon Dance  
+
+Starmie @ Colbur Berry  
+Ability: Natural Cure  
+EVs: 4 Def / 252 SpA / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Hydro Pump  
+- Grass Knot  
+- Thunderbolt  
+- Psychic  
+
+Gastrodon-East @ Damp Rock  
+Ability: Storm Drain  
+EVs: 252 HP / 252 Def / 4 SpD  
+Relaxed Nature  
+- Recover  
+- Earthquake  
+- Surf  
+- Rain Dance  
+
+Lanturn @ Leftovers  
+Ability: Volt Absorb  
+EVs: 40 HP / 192 Def / 100 SpA / 176 SpD  
+Calm Nature  
+IVs: 3 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe  
+- Surf  
+- Thunderbolt  
+- Thunder Wave  
+- Hidden Power [Fighting]  
+
+Breloom @ Toxic Orb  
+Ability: Poison Heal  
+EVs: 6 HP / 252 Atk / 252 Spe  
+Adamant Nature  
+- Mach Punch  
+- Swords Dance  
+- Substitute  
+- Facade

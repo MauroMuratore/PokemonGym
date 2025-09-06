@@ -1,0 +1,59 @@
+Swampert
+Level: 100
+Hardy Nature
+Ability: Torrent
+EVs: 1 Atk
+- Earthquake
+- Waterfall
+- Surf
+- Curse
+
+Houndoom
+Level: 100
+Hardy Nature
+Ability: Early Bird
+EVs: 1 Atk
+- Flamethrower
+- Dark Pulse
+- Sucker Punch
+- Nasty Plot
+
+Rotom-Wash
+Level: 100
+Hardy Nature
+Ability: Levitate
+EVs: 1 Atk
+- Thunderbolt
+- Hydro Pump
+- Protect
+- Will-O-Wisp
+
+Breloom
+Level: 100
+Hardy Nature
+Ability: Effect Spore
+EVs: 1 Atk
+- Mach Punch
+- Seed Bomb
+- Sky Uppercut
+- Protect
+
+Gardevoir
+Level: 100
+Hardy Nature
+Ability: Synchronize
+EVs: 1 Atk
+- Psychic
+- Energy Ball
+- Thunderbolt
+- Calm Mind
+
+Gyarados
+Level: 100
+Bashful Nature
+Ability: Intimidate
+EVs: 1 Atk
+- Brine
+- Waterfall
+- Bite
+- Dragon Dance
