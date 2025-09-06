@@ -37,8 +37,9 @@ def get_next_dqn_filename(folder_path: str, prefix: str = "dqn", ext: str = "pt"
 def test_dqn_agent():
     #battle_format = "gen4anythinggoes"
     battle_format ="gen4randombattle"
-    team = TeamSupport("data/teams/current")
-    opponent_team = TeamSupport("data/teams/current")
+    path_team = os.path.join("data", "teams", "current")
+    team = TeamSupport(path_team)
+    opponent_team = TeamSupport(path_team)
     configuration = AccountConfiguration("Trainer", None)
     opponent_configuration = AccountConfiguration("Opponent", None)
 
@@ -89,7 +90,8 @@ def test_dqn_agent():
                         master=master,
                         )
 
-    model_name = "model/" + get_next_dqn_filename("model")
+    model_name = get_next_dqn_filename("model")
+    path_model = os.path.join("model", model_name)
     tic = time.time()
     total_episode = 20_000
     try:
@@ -103,7 +105,7 @@ def test_dqn_agent():
         minutes = minutes % 60
         days = hours // 24
         hours = hours % 24
-        dqn_agent.save_model(model_name)
+        dqn_agent.save_model(path_model)
         wrapper_env.close()
         print(f"training lasts {days:02d}:{hours:02d}:{minutes:02d}:{seconds:02d}")
 
