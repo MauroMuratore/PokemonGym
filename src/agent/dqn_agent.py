@@ -32,10 +32,7 @@ class DQNAgent():
         self.policy_net = policy_net
         self.target_net = target_net
         self.env = env 
-        if memory:
-            self.memory = memory
-        else:
-            self.memory = ReplayMemory(1000)
+        self.memory = memory
         self.batch_size = batch_size
         self.gamma = gamma
         self.eps_start =eps_start
@@ -149,7 +146,7 @@ class DQNAgent():
                 self.target_net.load_state_dict(target_net_state_dict)
 
                 if done:
-                    print(f"episode: {episode} step: {n_step} action ({action_master},{action_policy}) loss: {loss:.5f} reward: {reward.item():.5f}")
+                    print(f"episode: {episode} step: {n_step} action ({action_master},{action_policy}) loss: {loss:.5f} reward: {reward.item():.5f} memory size: {len(self.memory)}")
                     break
     
     def save_model(self, path):

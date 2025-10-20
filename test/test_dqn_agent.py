@@ -1,5 +1,3 @@
-import os
-import re
 import time
 import torch
 import torch.optim as optim
@@ -13,48 +11,25 @@ from src.environment.battle_env import BattleEnv
 from src.memory.replay_memory import ReplayMemory
 from src.utils.team_support import TeamSupport
 
-def get_next_dqn_filename(folder_path: str, prefix: str = "dqn", ext: str = "pt") -> str:
-    """
-    Restituisce il primo nome disponibile con struttura dqn_n all'interno della cartella.
-    :param folder_path: percorso della cartella da controllare
-    :param prefix: prefisso del file (default: "dqn")
-    :return: stringa col nome file disponibile, es: "dqn_3"
-    """
-    pattern = re.compile(rf"^{prefix}_(\d+)\.{ext}$")
-    used_numbers = set()
-
-    for filename in os.listdir(folder_path):
-        match = pattern.match(filename)
-        if match:
-            used_numbers.add(int(match.group(1)))
-
-    n = 1
-    while n in used_numbers:
-        n += 1
-
-    return f"{prefix}_{n}.{ext}"
-
 def test_dqn_agent():
-    #battle_format = "gen4anythinggoes"
-    battle_format ="gen4randombattle"
-    path_team = os.path.join("data", "teams", "current")
-    team = TeamSupport(path_team)
-    opponent_team = TeamSupport(path_team)
+    battle_format ="gen4anythinggoes"
     configuration = AccountConfiguration("Trainer", None)
     opponent_configuration = AccountConfiguration("Opponent", None)
 
+    team_support = TeamSupport("data/teams/current")
+    opponent_team_support = TeamSupport("data/teams/current")
     opponent_player = SimpleHeuristicsPlayer(
         battle_format=battle_format,
         account_configuration=opponent_configuration,
-        #team=opponent_team
+        team=opponent_team_support
     )
 
     battle_env = BattleEnv(
         battle_format=battle_format,
         account_configuration1=configuration,
-        #team=team,
         log_level=25,
-        strict=False
+        strict=False,
+        team=team_support
     )
 
     wrapper_env = BattleAgentWrapper(
@@ -72,14 +47,13 @@ def test_dqn_agent():
     )
 
     policy_network = ForwardNN(size_observation, size_action).to(device)
-    #policy_network.load_state_dict(torch.load("model/dqn_1.pt", weights_only=True))
     target_network = ForwardNN(size_observation, size_action).to(device)
     target_network.load_state_dict(policy_network.state_dict())
 
     master = SimpleHeuristicsPlayer()
 
     optimizer = optim.Adam(policy_network.parameters(), lr=5e-4, amsgrad=True)
-    memory = ReplayMemory(10000)
+    memory = ReplayMemory(capacity = 10000)
 
     dqn_agent = DQNAgent(policy_network, 
                         target_network, 
@@ -90,10 +64,8 @@ def test_dqn_agent():
                         master=master,
                         )
 
-    model_name = get_next_dqn_filename("model")
-    path_model = os.path.join("model", model_name)
     tic = time.time()
-    total_episode = 20_000
+    total_episode = 50
     try:
         dqn_agent.train(total_episode)
     finally:
@@ -105,7 +77,6 @@ def test_dqn_agent():
         minutes = minutes % 60
         days = hours // 24
         hours = hours % 24
-        dqn_agent.save_model(path_model)
         wrapper_env.close()
         print(f"training lasts {days:02d}:{hours:02d}:{minutes:02d}:{seconds:02d}")
 

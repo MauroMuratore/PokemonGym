@@ -1,0 +1,84 @@
+encode_active_pokemon: &active_pokemon
+  - type_pokemon
+  - base_stats
+  - current_hp
+  - level
+  - type_pokemon
+  - base_stats
+  - current_hp
+  - level
+  - boost
+  - status
+  - ability
+  - item
+  - moves:
+    - data_move
+    - type_pokemon
+    - category_move
+    - boost
+    - weather 
+    - status 
+    - weather
+    - side_condition
+
+encode_team: &team 
+  - level
+  - type_pokemon
+  - base_stats
+  - current_hp
+  - boost
+  - status
+  - ability
+  - item
+  - moves:
+    - data_move
+    - type_pokemon
+    - category_move
+    - boost
+    - weather 
+    - status 
+    - weather
+    - side_condition
+
+opponent: &opponent
+  type_trainer: "simple_heuristic"
+  configuration:
+    username: "opponent"
+    passowrd: null
+  team_support: "data/teams/current"
+  battle_format: "gen4randombattle"
+
+env: &env
+  encode:
+    - turn
+    - weather
+    - side_condition
+    - active_pokemon:
+      - *active_pokemon
+    - team: 
+      - *team 
+    - last_move
+  battle_format: "gen4randombattle"
+  configuration:
+    username: "trainer"
+    password: null
+  log_level: 25
+  team_support: "data/teams/current"
+
+agent:
+  opponent: *opponent
+  env: *env 
+  load_policy: false
+  policy_network: 
+    layers: [256,256]
+    activation: ["relu", "relu"]
+  memory:
+    type_memory: "replay_memory"
+    capacity: 10000
+  optimizer:
+    learning_rate: 5e-4
+  master: "random"
+  episode: 10
+  save:
+    directory: "model"
+    name: "testing"

@@ -4,10 +4,13 @@ from poke_env.battle.status import Status
 from gymnasium.spaces import Box 
 from src.utils import encode_battle
 import numpy as np
+from typing import Dict, Callable
 
 class BattleEnv(SinglesEnv):
 
-    def __init__(self, *, 
+    def __init__(self, 
+                encode_f: tuple[Callable, int],
+                *, 
                 account_configuration1 = None, 
                 account_configuration2 = None, 
                 avatar = None, 
@@ -63,11 +66,17 @@ class BattleEnv(SinglesEnv):
         self.current_battle = None
         self.turn = turn
 
-        size_observation_space = encode_battle.SIZE_BATTLE
+        size_observation_space = 0
+        self.encode = []
+        for value in encode_f:
+            size_observation_space += value[1]
+            self.encode.append(value[0])
+
         self.observation_spaces = {
             agent: Box(low=0.0, high=1.0, shape=(size_observation_space,),
                 dtype=np.float64) for agent in self.possible_agents
         }
+
 
     def step(self, actions):
         return super().step(actions)
@@ -75,21 +84,8 @@ class BattleEnv(SinglesEnv):
     def calc_reward(self, battle):
         if battle not in self._reward_buffer:
             self._reward_buffer[battle] = 0
-#        stall_count = 0
-#        if len(self.list_actions) > 3:
-#            for index in range(len(self.list_actions)-1, 1, -1):
-#                if (self.list_actions[index] == self.list_actions[index-1] and
-#                    abs(self._score[index] - self._score[index -1]) < 0.01):
-#                    stall_count += 1
-#                else:
-#                    break
-#
-#        if stall_count > 5:
-#            print(f"turn {battle.turn}")
-#            print(f"stall: {stall_count}")
-#            current_value -= self.stall * stall_count
-#            print(current_value)
-#       
+        print("team_preview")
+        print(battle.teampreview_opponent_team)
         current_value = self.score_state(battle)
         current_value -= self.turn * battle.turn
         if battle.won:
@@ -126,23 +122,21 @@ class BattleEnv(SinglesEnv):
         return current_value
 
     def embed_battle(self, battle):
-        turn  = encode_battle.encode_turn(battle)
-        weather = encode_battle.encode_weather(battle)
-        side_condition = encode_battle.encode_side_condition(battle)
-        active_pokemon = encode_battle.encode_active_pokemon(battle)
-        team = encode_battle.encode_team(battle)
-        last_move = encode_battle.encode_last_moves(battle)
+        list_return = []
+        
+        for encode in self.encode:
+            list_return.append(encode(battle))
+
+        # turn  = encode_battle.encode_turn(battle)
+        # weather = encode_battle.encode_weather(battle)
+        # side_condition = encode_battle.encode_side_condition(battle)
+        # active_pokemon = encode_battle.encode_active_pokemon(battle)
+        # team = encode_battle.encode_team(battle)
+        # last_move = encode_battle.encode_last_moves(battle)
 
         self.current_battle = battle
 
-        return np.concatenate([
-            turn,
-            weather,
-            side_condition,
-            active_pokemon,
-            team,
-            last_move
-        ])
+        return np.concatenate(list_return)
 
     def reset(self, seed = None, options = None):
         self.list_actions = []

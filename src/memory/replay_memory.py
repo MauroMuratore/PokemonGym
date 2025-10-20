@@ -4,7 +4,7 @@ from src.memory.transition import Transition
 
 class ReplayMemory(object):
 
-    def __init__(self, capacity=1000):
+    def __init__(self, capacity):
         self.memory = deque([], maxlen=capacity)
 
     def push(self, *args):

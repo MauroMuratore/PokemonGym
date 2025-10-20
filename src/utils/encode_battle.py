@@ -23,12 +23,12 @@ SIZE_HP=1
 SIZE_LEVEL=1
 SIZE_STATUS = 6
 SIZE_MOVE_CATEGORY = 3
-SIZE_REMAINING_MOVE = 14
+SIZE_DATA_MOVE= 14
 SIZE_LAST_MOVE = 11
 SIZE_ITEM = 88
 SIZE_ABILITY = 310
 
-SIZE_MOVE = SIZE_MOVE_CATEGORY + SIZE_BOOST + SIZE_REMAINING_MOVE \
+SIZE_MOVE = SIZE_MOVE_CATEGORY + SIZE_BOOST + SIZE_DATA_MOVE\
         + SIZE_TYPE + SIZE_WEATHER + SIZE_SIDE_CONDITION + SIZE_STATUS
 
 SIZE_POKEMON = SIZE_TYPE + SIZE_BASE_STATS + SIZE_ITEM + SIZE_ABILITY +\
@@ -40,6 +40,7 @@ SIZE_TEAM = 5 * SIZE_POKEMON
 
 SIZE_BATTLE = SIZE_TURN + SIZE_WEATHER + 2* SIZE_SIDE_CONDITION + 2*SIZE_ACTIVE_POKEMON +\
         2*SIZE_TEAM + 2*SIZE_LAST_MOVE
+
 
 def encode_turn(battle: AbstractBattle) -> np.array:
     """
@@ -334,7 +335,7 @@ def _encode_move(move: Move) -> np.array:
     weather = _encode_array_weather(move.weather)
     side_condition = _encode_array_side_condition(move.side_condition)
     
-    remaining_move_array = np.zeros(SIZE_REMAINING_MOVE)
+    remaining_move_array = np.zeros(SIZE_DATA_MOVE)
     remaining_move_array[0] = move.accuracy
     remaining_move_array[1] = min(move.base_power/200.0, 1.0)
     remaining_move_array[2] = move.crit_ratio / 6.0
@@ -440,3 +441,13 @@ def encode_last_moves(battle: AbstractBattle) -> np.array:
         array_last_move,
         opponent_array_last_move
         ])
+
+
+DICTIONARY_ENCODE= {
+    "turn": (encode_turn, SIZE_TURN),
+    "weather": (encode_weather, SIZE_WEATHER),
+    "side_condition": (encode_side_condition, 2*SIZE_SIDE_CONDITION),
+    "active_pokemon": (encode_active_pokemon, 2*SIZE_ACTIVE_POKEMON),
+    "team": (encode_team, 2*SIZE_TEAM),
+    "last_move": (encode_last_moves, 2*SIZE_LAST_MOVE)
+}
