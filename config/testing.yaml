@@ -1,13 +1,9 @@
 encode_active_pokemon: &active_pokemon
   - type_pokemon
-  - base_stats
   - current_hp
   - level
-  - type_pokemon
   - base_stats
-  - current_hp
-  - level
-  - boost
+  - boosts
   - status
   - ability
   - item
@@ -15,18 +11,17 @@ encode_active_pokemon: &active_pokemon
     - data_move
     - type_pokemon
     - category_move
-    - boost
+    - boosts
     - weather 
     - status 
-    - weather
     - side_condition
 
 encode_team: &team 
-  - level
   - type_pokemon
-  - base_stats
   - current_hp
-  - boost
+  - level
+  - base_stats
+  - boosts
   - status
   - ability
   - item
@@ -34,10 +29,9 @@ encode_team: &team
     - data_move
     - type_pokemon
     - category_move
-    - boost
+    - boosts
     - weather 
     - status 
-    - weather
     - side_condition
 
 opponent: &opponent
@@ -50,14 +44,19 @@ opponent: &opponent
 
 env: &env
   encode:
-    - turn
-    - weather
-    - side_condition
-    - active_pokemon:
+    battle:
+      - turn
+      - weather
+      - side_condition
+      - last_move
+    active_pokemon:
       - *active_pokemon
-    - team: 
+    opponent_active_pokemon:
+      - *active_pokemon
+    team: 
       - *team 
-    - last_move
+    opponent_team: 
+      - *team 
   battle_format: "gen4randombattle"
   configuration:
     username: "trainer"

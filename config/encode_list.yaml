@@ -1,0 +1,25 @@
+move:
+  - boosts
+  - category
+  - data_move
+  - side_condition
+  - status 
+  - type_pokemon
+  - weather 
+
+pokemon: 
+  - ability
+  - base_stats
+  - boosts
+  - current_hp
+  - item
+  - level
+  - possible_abilities
+  - status
+  - type_pokemon
+
+battle:
+  - last_move
+  - side_condition
+  - turn
+  - weather
