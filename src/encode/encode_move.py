@@ -55,10 +55,10 @@ def encode_weather(move: Move) -> np.ndarray:
 
 DICT_ENCODE_MOVE = {
         "boosts": (encode_boosts, encode_common.SIZE_BOOSTS),
-        "category": (encode_category, SIZE_DATA_MOVE),
+        "category": (encode_category, SIZE_MOVE_CATEGORY),
         "data_move": (encode_data_move, SIZE_DATA_MOVE),
         "side_condition": (encode_side_condition, encode_common.SIZE_SIDE_CONDITION),
-        "status": (encode_status, encode_common.Status),
+        "status": (encode_status, encode_common.SIZE_STATUS),
         "type_pokemon": (encode_type_pokemon, encode_common.SIZE_TYPE),
         "weather": (encode_weather, encode_common.SIZE_WEATHER)
         }

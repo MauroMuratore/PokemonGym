@@ -6,11 +6,11 @@ from typing import Dict
 import numpy as np
 import re
 
-from src.utils.encode_battle_old import SIZE_SIDE_CONDITION
-
 
 SIZE_LAST_MOVE = 22
+SIZE_SIDE_CONDITION = encode_common.SIZE_SIDE_CONDITION
 SIZE_TURN = 1
+SIZE_WEATHER = encode_common.SIZE_WEATHER 
 
 def encode_last_move(battle: AbstractBattle) -> np.ndarray:
     if battle.turn < 1 or not battle.observations:

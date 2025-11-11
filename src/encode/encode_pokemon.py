@@ -10,11 +10,13 @@ SIZE_BASE_STATS = 6
 SIZE_CURRENT_HP = 1
 SIZE_ITEM = 88
 SIZE_LEVEL = 1
+SIZE_STATUS = encode_common.SIZE_STATUS
+SIZE_TYPE = encode_common.SIZE_TYPE
 
 def encode_ability(pokemon: Pokemon) -> np.ndarray:
     ability = pokemon.ability
     array_return = np.zeros(SIZE_ABILITY)
-    if ability is None or ability is "":
+    if ability is None or ability == "":
         return array_return 
     
     ability = ability.replace("'","")
@@ -43,7 +45,7 @@ def encode_current_hp(pokemon: Pokemon) -> np.ndarray:
 def encode_item(pokemon: Pokemon) -> np.ndarray:
     item = pokemon.item
     array_return = np.zeros(SIZE_ITEM)
-    if item is None or item is "":
+    if item is None or item == "":
         return array_return
     item = item.replace("'","")
     if item in pokemon_dict.ITEM:
@@ -69,7 +71,7 @@ def encode_status(pokemon: Pokemon) -> np.ndarray:
     return encode_common.encode_status(pokemon.status)
 
 def encode_type_pokemon(pokemon: Pokemon) -> np.ndarray:
-    if pokemon.type_2 is None:
+    if pokemon.type_2 is not None:
         return encode_common.encode_type(pokemon.type_1, pokemon.type_2)
     else:
         return encode_common.encode_type(pokemon.type_1)

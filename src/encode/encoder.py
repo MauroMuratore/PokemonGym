@@ -58,9 +58,9 @@ class Encoder():
 
         self.observation_space = self.size_battle +\
             self.size_active_pokemon + 4*self.size_active_pokemon_move +\
-            6*(self.size_team + 4*self.size_team_move) +\
+            5*(self.size_team + 4*self.size_team_move) +\
             self.size_opponent_active_pokemon + 4*self.size_opponent_active_pokemon_move +\
-            6*(self.size_opponent_team + 4*self.size_opponent_team_move)
+            5*(self.size_opponent_team + 4*self.size_opponent_team_move)
 
     def encode(self, battle: AbstractBattle) -> np.ndarray: 
         encoded_return = []
@@ -68,6 +68,8 @@ class Encoder():
         encoded_return.append(self._encode_pokemon(battle.active_pokemon, self.list_encode_active_pokemon))
         encoded_return.append(self._encode_moves(battle.active_pokemon.moves, self.list_encode_active_pokemon_move, self.size_active_pokemon_move))
         for _, pokemon in battle.team.items():
+            if pokemon.identifier == battle.active_pokemon.identifier:
+                continue
             encoded_return.append(self._encode_pokemon(pokemon, self.list_encode_team))
             encoded_return.append(self._encode_moves(pokemon.moves, self.list_encode_team_move, self.size_team_move))
         for i in range(0, 6-len(battle.team)):
@@ -76,6 +78,8 @@ class Encoder():
         encoded_return.append(self._encode_pokemon(battle.opponent_active_pokemon, self.list_encode_opponent_active_pokemon))
         encoded_return.append(self._encode_moves(battle.opponent_active_pokemon.moves, self.list_encode_opponent_active_pokemon_move, self.size_opponent_active_pokemon_move))
         for _, pokemon in battle.opponent_team.items():
+            if pokemon.identifier == battle.opponent_active_pokemon.identifier:
+                continue
             encoded_return.append(self._encode_pokemon(pokemon, self.list_encode_opponent_team))
             encoded_return.append(self._encode_moves(pokemon.moves, self.list_encode_opponent_team_move, self.size_opponent_team_move))
         for i in range(0, 6-len(battle.opponent_team)):

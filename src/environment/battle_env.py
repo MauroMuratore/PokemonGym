@@ -2,14 +2,14 @@ from poke_env.ps_client.server_configuration import LocalhostServerConfiguration
 from poke_env.environment.singles_env import SinglesEnv
 from poke_env.battle.status import Status
 from gymnasium.spaces import Box 
-from src.utils import encode_battle
+from src.encode.encoder import Encoder
 import numpy as np
 from typing import Dict, Callable
 
 class BattleEnv(SinglesEnv):
 
     def __init__(self, 
-                encode_f: tuple[Callable, int],
+                 encoder: Encoder,
                 *, 
                 account_configuration1 = None, 
                 account_configuration2 = None, 
@@ -66,11 +66,8 @@ class BattleEnv(SinglesEnv):
         self.current_battle = None
         self.turn = turn
 
-        size_observation_space = 0
-        self.encode = []
-        for value in encode_f:
-            size_observation_space += value[1]
-            self.encode.append(value[0])
+        self.encoder = encoder
+        size_observation_space = self.encoder.observation_space
 
         self.observation_spaces = {
             agent: Box(low=0.0, high=1.0, shape=(size_observation_space,),
@@ -122,21 +119,7 @@ class BattleEnv(SinglesEnv):
         return current_value
 
     def embed_battle(self, battle):
-        list_return = []
-        
-        for encode in self.encode:
-            list_return.append(encode(battle))
-
-        # turn  = encode_battle.encode_turn(battle)
-        # weather = encode_battle.encode_weather(battle)
-        # side_condition = encode_battle.encode_side_condition(battle)
-        # active_pokemon = encode_battle.encode_active_pokemon(battle)
-        # team = encode_battle.encode_team(battle)
-        # last_move = encode_battle.encode_last_moves(battle)
-
-        self.current_battle = battle
-
-        return np.concatenate(list_return)
+        return self.encoder.encode(battle)
 
     def reset(self, seed = None, options = None):
         self.list_actions = []

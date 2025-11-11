@@ -7,12 +7,12 @@ from src.encode.encoder import Encoder
 
 class FactoryEncoder():
 
-    def __init__(self, encoder_dictionary: Optional[Dict[str,Dict[str, tuple[Callable, int]]]]):
+    def __init__(self, encoder_dictionary: Optional[Dict[str,Dict[str, tuple[Callable, int]]]] = None):
 
         if encoder_dictionary is None:
             self.encoder_dictionary = {
                     "battle": DICT_ENCODE_BATTLE,
-                    "move": DICT_ENCODE_BATTLE,
+                    "move": DICT_ENCODE_MOVE,
                     "pokemon": DICT_ENCODE_POKEMON
                     }
         else:
@@ -43,8 +43,8 @@ class FactoryEncoder():
         list_pokemon = []
         list_pokemon_move = []
         for encode in config[tag]:
-            if encode == "moves":
-                for encode_move in encode:
+            if isinstance(encode, dict):
+                for encode_move in encode["moves"]:
                     assert encode_move in self.encoder_dictionary["move"]
                     list_pokemon_move.append(self.encoder_dictionary["move"][encode_move])
             else:
